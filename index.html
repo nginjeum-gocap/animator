@@ -14,7 +14,6 @@
             height: 100vh;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.6rem;
-            /* Mempertebal seluruh teks utama */
             font-weight: 900; 
             overflow: hidden;
             margin: 0;
@@ -29,7 +28,6 @@
             text-align: left;
             line-height: 1.5;
             white-space: pre-wrap;
-            /* Mempertebal teks halaman pertama */
             font-weight: 900; 
             background: linear-gradient(135deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
             -webkit-background-clip: text;
@@ -52,7 +50,7 @@
             50% { opacity: 1; }
             100% { opacity: 0; }
         }
-        .btn-group, .btn-group-sukses {
+        .btn-group {
             margin-top: 40px;
             display: none;
             justify-content: flex-start;
@@ -61,7 +59,6 @@
         button {
             padding: 14px 28px;
             font-size: 1.1rem;
-            /* Mempertebal teks tombol */
             font-weight: 900; 
             border: none;
             border-radius: 25px;
@@ -77,19 +74,8 @@
         button:active {
             transform: scale(0.95);
         }
-        #btn-no, #btn-sukses-dua {
+        #btn-no {
             filter: hue-rotate(180deg); 
-        }
-        .teks-sukses {
-            background: none !important;
-            -webkit-background-clip: unset !important;
-            -webkit-text-fill-color: #33ff33 !important;
-            font-size: 1.5rem;
-            /* Mempertebal teks halaman kedua */
-            font-weight: 900; 
-        }
-        .emoji-asli {
-            -webkit-text-fill-color: initial !important;
         }
         @keyframes gerakPelangiTeks {
             0% { background-position: 0% 50%; }
@@ -109,14 +95,8 @@
 
         <!-- HALAMAN 1 -->
         <div class="btn-group" id="tombol-pilihan">
-            <button id="btn-yes" onclick="terimakasih()">AYA YEUH</button>
+            <button id="btn-yes" onclick="pindahHalaman()">AYA YEUH</button>
             <button id="btn-no" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">EUWEUH LAH BELIS</button>
-        </div>
-
-        <!-- HALAMAN 2 -->
-        <div class="btn-group-sukses" id="tombol-sukses-group">
-            <button id="btn-sukses-satu" onclick="bukaQris()">CASH</button>
-            <button id="btn-sukses-dua" onclick="bukaDana()">TF</button>
         </div>
     </div>
 
@@ -132,7 +112,6 @@
         const wadahUtama = document.getElementById("log-terminal");
         const kursor = document.getElementById("kursor-terminal");
         const grupTombolAwal = document.getElementById("tombol-pilihan");
-        const grupTombolSukses = document.getElementById("tombol-sukses-group");
         const btnNo = document.getElementById("btn-no");
 
         let barisIndex = 0;
@@ -173,25 +152,9 @@
             btnNo.style.top = yAcak + "px";
         }
 
-        function terimakasih() {
-            grupTombolAwal.style.display = "none"; 
-            wadahUtama.className = "teks-sukses";
-            wadahUtama.innerHTML = "Madep! Ditunggu Transferna Ieu No Rek Na:08815875598! <span class='emoji-asli'>🙏😎</span>";
-            grupTombolSukses.style.display = "flex";
-        }
-
-        function bukaDana() {
-            // Menggunakan universal link DANA agar otomatis membuka aplikasi di Android maupun iOS
-            window.location.href = "https://dana.id";
-            
-            // Backup metode intent jika browser Android memblokir pemindahan url universal
-            setTimeout(function() {
-                window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
-            }, 500);
-        }
-
-        function bukaQris() {
-            alert("Tombol Kirim QRIS aktif!");
+        function pindahHalaman() {
+            // Mengalihkan target langsung ke halaman sukses
+            window.location.href = "sukses.html";
         }
 
         setTimeout(ketikPelangi, 500);
