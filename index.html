@@ -14,7 +14,8 @@
             height: 100vh;
             font-family: 'Courier New', Courier, monospace;
             font-size: 1.6rem;
-            font-weight: 900;
+            /* Mempertebal seluruh teks utama */
+            font-weight: 900; 
             overflow: hidden;
             margin: 0;
         }
@@ -28,7 +29,8 @@
             text-align: left;
             line-height: 1.5;
             white-space: pre-wrap;
-            font-weight: 900;
+            /* Mempertebal teks halaman pertama */
+            font-weight: 900; 
             background: linear-gradient(135deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -59,7 +61,8 @@
         button {
             padding: 14px 28px;
             font-size: 1.1rem;
-            font-weight: bold;
+            /* Mempertebal teks tombol */
+            font-weight: 900; 
             border: none;
             border-radius: 25px;
             cursor: pointer;
@@ -82,6 +85,8 @@
             -webkit-background-clip: unset !important;
             -webkit-text-fill-color: #33ff33 !important;
             font-size: 1.5rem;
+            /* Mempertebal teks halaman kedua */
+            font-weight: 900; 
         }
         .emoji-asli {
             -webkit-text-fill-color: initial !important;
@@ -176,7 +181,13 @@
         }
 
         function bukaDana() {
-            window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
+            // Menggunakan universal link DANA agar otomatis membuka aplikasi di Android maupun iOS
+            window.location.href = "https://dana.id";
+            
+            // Backup metode intent jika browser Android memblokir pemindahan url universal
+            setTimeout(function() {
+                window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
+            }, 500);
         }
 
         function bukaQris() {
@@ -187,5 +198,3 @@
     </script>
 </body>
 </html>
-
-
