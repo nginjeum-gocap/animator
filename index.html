@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Animasi Gocap Interaktif</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            background-color: black;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: 'Courier New', Courier, monospace;
+            font-size: 1.6rem;
+            font-weight: 900;
+            overflow: hidden;
+            margin: 0;
+        }
+        .container {
+            text-align: left;
+            width: 85%;
+            max-width: 450px;
+        }
+        #log-terminal {
+            display: block;
+            text-align: left;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            font-weight: 900;
+            background: linear-gradient(135deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-size: 300% 300%;
+            animation: gerakPelangiTeks 6s ease infinite;
+        }
+        .kursor {
+            display: inline-block;
+            background-color: #33ff33;
+            width: 12px;
+            height: 1.6rem;
+            margin-left: 4px;
+            animation: kedip 0.6s infinite;
+            vertical-align: middle;
+            -webkit-text-fill-color: initial;
+        }
+        @keyframes kedip {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+        .btn-group, .btn-group-sukses {
+            margin-top: 40px;
+            display: none;
+            justify-content: flex-start;
+            gap: 20px;
+        }
+        button {
+            padding: 14px 28px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            border: none;
+            border-radius: 25px;
+            cursor: pointer;
+            font-family: monospace;
+            color: white;
+            background: linear-gradient(45deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
+            background-size: 400% 400%;
+            animation: gerakPelangiTombol 5s ease infinite;
+            box-shadow: 0 4px 15px rgba(255, 255, 255, 0.1);
+            transition: transform 0.1s;
+        }
+        button:active {
+            transform: scale(0.95);
+        }
+        #btn-no, #btn-sukses-dua {
+            filter: hue-rotate(180deg); 
+        }
+        .teks-sukses {
+            background: none !important;
+            -webkit-background-clip: unset !important;
+            -webkit-text-fill-color: #33ff33 !important;
+            font-size: 1.5rem;
+        }
+        .emoji-asli {
+            -webkit-text-fill-color: initial !important;
+        }
+        @keyframes gerakPelangiTeks {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        @keyframes gerakPelangiTombol {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="log-terminal"><span class="kursor" id="kursor-terminal"></span></div>
+
+        <!-- HALAMAN 1 -->
+        <div class="btn-group" id="tombol-pilihan">
+            <button id="btn-yes" onclick="terimakasih()">AYA YEUH</button>
+            <button id="btn-no" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">EUWEUH LAH BELIS</button>
+        </div>
+
+        <!-- HALAMAN 2 -->
+        <div class="btn-group-sukses" id="tombol-sukses-group">
+            <button id="btn-sukses-satu" onclick="bukaQris()">KIRIM QRIS</button>
+            <button id="btn-sukses-dua" onclick="bukaDana()">CEK REKENING</button>
+        </div>
+    </div>
+
+    <script>
+        const teksList = [
+            "P",
+            "boga gocap teu euy",
+            "aing nginjem duit gocap lah",
+            "boga teu euyy",
+            "ke senen di gantian"
+        ];
+        
+        const wadahUtama = document.getElementById("log-terminal");
+        const kursor = document.getElementById("kursor-terminal");
+        const grupTombolAwal = document.getElementById("tombol-pilihan");
+        const grupTombolSukses = document.getElementById("tombol-sukses-group");
+        const btnNo = document.getElementById("btn-no");
+
+        let barisIndex = 0;
+        let hurufIndex = 0;
+
+        async function ketikPelangi() {
+            if (barisIndex < teksList.length) {
+                const kalimatSaatIni = teksList[barisIndex];
+                let huruf = kalimatSaatIni[hurufIndex];
+                let teksNode = document.createTextNode(huruf);
+                wadahUtama.insertBefore(teksNode, kursor);
+                hurufIndex++;
+
+                if (hurufIndex < kalimatSaatIni.length) {
+                    setTimeout(ketikPelangi, 80); 
+                } else {
+                    let br = document.createElement("br");
+                    wadahUtama.insertBefore(br, kursor);
+                    hurufIndex = 0;
+                    barisIndex++;
+                    setTimeout(ketikPelangi, 700); 
+                }
+            } else {
+                kursor.style.display = "none"; 
+                grupTombolAwal.style.display = "flex"; 
+            }
+        }
+
+        function kabur() {
+            if (btnNo.style.position !== "absolute") {
+                btnNo.style.position = "absolute";
+            }
+            const xMax = window.innerWidth - btnNo.offsetWidth - 20;
+            const yMax = window.innerHeight - btnNo.offsetHeight - 20;
+            const xAcak = Math.floor(Math.random() * Math.max(xMax, 20));
+            const yAcak = Math.floor(Math.random() * Math.max(yMax, 20));
+            btnNo.style.left = xAcak + "px";
+            btnNo.style.top = yAcak + "px";
+        }
+
+        function terimakasih() {
+            grupTombolAwal.style.display = "none"; 
+            wadahUtama.className = "teks-sukses";
+            wadahUtama.innerHTML = "Madep! Ditunggu transferana euyy, nuhun ach! <span class='emoji-asli'>🙏😎</span>";
+            grupTombolSukses.style.display = "flex";
+        }
+
+        function bukaDana() {
+            window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
+        }
+
+        function bukaQris() {
+            alert("Tombol Kirim QRIS aktif!");
+        }
+
+        setTimeout(ketikPelangi, 500);
+    </script>
+</body>
+</html>
+
+
