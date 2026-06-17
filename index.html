@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Animation Studio</title>
+  <style>
+    /* BIAR PAS DIKLIK GESERNYA MULUS */
+    html {
+      scroll-behavior: smooth;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    /* BACKGROUND UTAMA: MINIMALIS DARK GRADIENT */
+    body {
+      background-color: #0b0c10;
+      color: #ffffff;
+      overflow-x: hidden;
+    }
+
+    /* NAVBAR UTAMA */
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background-color: rgba(31, 40, 51, 0.75);
+      backdrop-filter: blur(8px);
+      padding: 12px 20px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      box-shadow: 0 4px 20px rgba(0, 243, 255, 0.15);
+      border-bottom: 1px solid rgba(102, 252, 241, 0.25);
+      height: 70px;
+    }
+
+    .logo-area {
+      position: relative;
+      flex-grow: 1;
+      height: 100%;
+      display: flex;
+      align-items: center;
+    }
+
+    .logo-singkat, .logo-lengkap {
+      position: absolute;
+      line-height: 1.2;
+      font-weight: bold;
+      opacity: 0;
+      color: #00ffff; 
+      filter: drop-shadow(0 0 8px #00ffff);
+      animation: neonPelangiAman 6s linear infinite;
+    }
+
+    .logo-singkat { left: 0; font-size: 1.1rem; }
+    .logo-lengkap { width: 100%; font-size: 1.05rem; text-align: center; }
+
+    @keyframes neonPelangiAman {
+      0%, 100% { color: #00ffff; filter: drop-shadow(0 0 8px #00ffff); }
+      20% { color: #00ff7f; filter: drop-shadow(0 0 8px #00ff7f); }
+      40% { color: #ffff00; filter: drop-shadow(0 0 8px #ffff00); }
+      60% { color: #ff0055; filter: drop-shadow(0 0 8px #ff0055); }
+      80% { color: #7f00ff; filter: drop-shadow(0 0 8px #7f00ff); }
+    }
+
+    .intro-logo1 { animation: introAA 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards, neonPelangiAman 6s linear infinite; }
+    .intro-logo2 { animation: introAllAnimation 1.8s cubic-bezier(0.25, 1, 0.5, 1) 2.5s forwards, neonPelangiAman 6s linear infinite; }
+
+    @keyframes introAA {
+      0% { opacity: 0; transform: translateX(-25px); }
+      20%, 85% { opacity: 1; transform: translateX(0); }
+      100% { opacity: 0; transform: translateX(15px); }
+    }
+    @keyframes introAllAnimation {
+      0% { opacity: 0; transform: translateX(-35px); }
+      100% { opacity: 1; transform: translateX(0); }
+    }
+
+    .loop-logo1 { animation: loopSiklusAA 12s cubic-bezier(0.25, 1, 0.5, 1) infinite, neonPelangiAman 6s linear infinite; }
+    .loop-logo2 { animation: loopSiklusAllAnimation 12s cubic-bezier(0.25, 1, 0.5, 1) infinite, neonPelangiAman 6s linear infinite; }
+
+    @keyframes loopSiklusAllAnimation {
+      0%, 75% { opacity: 1; transform: translateX(0); }
+      80% { opacity: 0; transform: translateX(-60px) scale(0.9); }
+      100% { opacity: 0; transform: translateX(-35px); }
+    }
+    @keyframes loopSiklusAA {
+      0%, 75% { opacity: 0; transform: translateX(30px); } 
+      80%, 95% { opacity: 1; transform: translateX(0); }    
+      100% { opacity: 0; transform: translateX(15px); }      
+    }
+
+    .menu-toggle {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+      width: 40px;
+      height: 40px;
+      background-color: rgba(102, 252, 241, 0.03);
+      border-radius: 50%;
+      border: 1px solid rgba(102, 252, 241, 0.25);
+      flex-shrink: 0;
+      z-index: 1010;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .menu-toggle:hover { background-color: rgba(102, 252, 241, 0.12); box-shadow: 0 0 15px rgba(102, 252, 241, 0.35); }
+    .menu-toggle span { width: 18px; height: 2px; background-color: #66fcf1; border-radius: 2px; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); }
+    
+    .menu-toggle.active-btn span:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+    .menu-toggle.active-btn span:nth-child(2) { opacity: 0; transform: scale(0); }
+    .menu-toggle.active-btn span:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+    .dropdown-menu {
+      position: absolute;
+      top: 75px; right: 20px;
+      background-color: #1f2833;
+      border: 1px solid #66fcf1;
+      border-radius: 12px;
+      width: 200px;
+      box-shadow: 0 10px 35px rgba(0,0,0,0.65), 0 0 15px rgba(102, 252, 241, 0.15);
+      overflow: hidden;
+      z-index: 1000;
+      opacity: 0;
+      transform: translateY(-25px) scale(0.93);
+      pointer-events: none;
+      transition: all 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .dropdown-menu.active { opacity: 1; transform: translateY(0) scale(1); pointer-events: auto; }
+    .dropdown-menu a { display: block; color: white; padding: 14px 20px; text-decoration: none; font-size: 0.95rem; border-bottom: 1px solid rgba(255, 255, 255, 0.05); transition: all 0.3s; }
+    .dropdown-menu a:hover { background-color: rgba(102, 252, 241, 0.08); color: #66fcf1; padding-left: 26px; }
+
+    /* HERO SECTION (POLOS SEPOLES-POLESNYA) */
+    .hero {
+      height: calc(100vh - 70px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: radial-gradient(circle, #1f2833 0%, #0b0c10 100%);
+    }
+  </style>
+</head>
+<body>
+
+  <header class="navbar">
+    <div class="logo-area">
+      <div class="logo-singkat intro-logo1" id="logo1">AA<br>STUDIO</div>
+      <div class="logo-lengkap intro-logo2" id="idLogo2">ALL ANIMATION<br>STUDIO</div>
+    </div>
+    <div class="menu-toggle" id="menuBtn"><span></span><span></span><span></span></div>
+    <div class="dropdown-menu" id="dropdownMenu">
+      <a href="#beranda">🏠 Beranda</a>
+      <a href="animasi/index.html">🎬 Animasi Studio</a>
+      <a href="#masuk">👤 Masuk Akun</a> 
+    </div>
+  </header>
+
+  <main class="hero" id="beranda">
+    </main>
+
+  <script>
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const logo1 = document.getElementById('logo1');
+    const logo2 = document.getElementById('idLogo2');
+
+    menuBtn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      dropdownMenu.classList.toggle('active');
+      menuBtn.classList.toggle('active-btn');
+    });
+
+    document.addEventListener('click', () => {
+      dropdownMenu.classList.remove('active');
+      menuBtn.classList.remove('active-btn');
+    });
+
+    setTimeout(() => {
+      logo1.classList.remove('intro-logo1');
+      logo2.classList.remove('intro-logo2');
+      void logo1.offsetWidth;
+      void logo2.offsetWidth;
+      logo1.classList.add('loop-logo1');
+      logo2.classList.add('loop-logo2');
+    }, 5000);
+    
+    /* ARAHAN POPUP UTAMA SUDAH DIHAPUS BERSIH */
+  </script>
+
+</body>
+</html>
