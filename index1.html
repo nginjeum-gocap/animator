@@ -3,10 +3,9 @@
 <head>
     <title>Animasi Gocap Interaktif</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Mengambil font estetik dari Google Fonts -->
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght=800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -99,7 +98,6 @@
     <div class="container">
         <div id="log-terminal"><span class="kursor" id="kursor-terminal"></span></div>
 
-        <!-- HALAMAN 1 -->
         <div class="btn-group" id="tombol-pilihan">
             <button id="btn-yes" onclick="pindahHalaman()">AYA YEUH</button>
             <button id="btn-no" onmouseover="kabur()" ontouchstart="kabur()" onclick="kabur()">EUWEUH LAH BELIS</button>
@@ -107,6 +105,12 @@
     </div>
 
     <script>
+        // SISTEM PROTEKSI: Jika user belum registrasi, paksa balik ke register.html dlu
+        const nomorTersimpan = localStorage.getItem('danaUser');
+        if (!nomorTersimpan) {
+            window.location.href = 'register.html';
+        }
+
         const teksList = [
             "P",
             "boga gocap teu euy",
@@ -166,3 +170,4 @@
     </script>
 </body>
 </html>
+
