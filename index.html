@@ -142,13 +142,13 @@
 
     /* STUDIO KONTEN UTAMA */
     .studio-container {
-      max-width: 480px; /* Batasan biar gak terlalu lebar di layar besar */
+      max-width: 480px;
       margin: 0 auto;
       padding: 25px 15px;
       text-align: center;
     }
 
-    /* 1. TULISAN SAMBUTAN */
+    /* TULISAN SAMBUTAN */
     .welcome-title {
       font-size: 1.6rem;
       font-weight: 800;
@@ -165,7 +165,7 @@
       margin-bottom: 25px;
     }
 
-    /* 2. FITUR PENELUSURAN (SEARCH) */
+    /* FITUR PENELUSURAN (SEARCH) */
     .search-box {
       width: 100%;
       position: relative;
@@ -190,10 +190,10 @@
       color: #797a86;
     }
 
-    /* 3. GRID CARD ANIMASI (1 BARIS ISI 2 TUMPUK) */
+    /* GRID CARD ANIMASI */
     .animation-grid {
       display: grid;
-      grid-template-columns: repeat(2, 1fr); /* Tetap 2 kolom kesamping */
+      grid-template-columns: repeat(2, 1fr);
       gap: 12px;
     }
 
@@ -202,35 +202,27 @@
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 14px;
       overflow: hidden;
-      cursor: pointer;
       transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
       display: flex;
       flex-direction: column;
     }
     .anim-card:hover {
-      transform: translateY(-4px);
-      border-color: rgba(102, 252, 241, 0.4);
-      box-shadow: 0 6px 15px rgba(0, 243, 255, 0.1);
+      border-color: rgba(102, 252, 241, 0.2);
     }
 
-    /* Bagian Kotak Atas untuk Foto/Background */
+    /* Bagian Kotak Gambar (Thumbnail) */
     .anim-thumbnail {
       width: 100%;
-      aspect-ratio: 1 / 1; /* Persegi Kotak Pas */
+      aspect-ratio: 1 / 1;
       background-color: #1f2833;
       background-size: cover;
       background-position: center;
       position: relative;
+      cursor: pointer; /* Menandakan hanya bagian ini yang bisa diklik */
+      transition: filter 0.2s ease;
     }
-
-    /* Placeholder icon jika gambar kosong */
-    .anim-thumbnail::before {
-      content: '🎬';
-      position: absolute;
-      top: 50%; left: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.5rem;
-      opacity: 0.3;
+    .anim-thumbnail:hover {
+      filter: brightness(1.1);
     }
 
     /* Bagian Bawah Persegi untuk Caption */
@@ -246,7 +238,7 @@
       color: #ffffff;
       white-space: nowrap;
       overflow: hidden;
-      text-overflow: ellipsis; /* Biar kalau kepanjangan jadi titik-titik */
+      text-overflow: ellipsis;
     }
     .anim-desc {
       font-size: 0.75rem;
@@ -282,15 +274,15 @@
 
     <div class="animation-grid" id="animGrid">
       
-      <div class="anim-card" data-title="Naruto Fight" data-desc="Project latihan animasi fight scene Blender 3D." data-video="https://www.w3schools.com/html/mov_bbb.mp4" data-thumb="">
-        <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=1');"></div>
+      <div class="anim-card" data-title="DANA Otomatis">
+        <div class="anim-thumbnail" style="background-image: url('dana.jpg');"></div>
         <div class="anim-caption">
-          <div class="anim-title">Naruto Fight</div>
-          <div class="anim-desc">Blender 3D</div>
+          <div class="anim-title">DANA Otomatis</div>
+          <div class="anim-desc">Sistem Integrasi</div>
         </div>
       </div>
 
-      <div class="anim-card" data-title="Stickman Epic" data-desc="Animasi stickman berantem 2D klasik pake Pivot." data-video="https://www.w3schools.com/html/movie.mp4" data-thumb="">
+      <div class="anim-card" data-title="Stickman Epic">
         <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=2');"></div>
         <div class="anim-caption">
           <div class="anim-title">Stickman Epic</div>
@@ -298,7 +290,7 @@
         </div>
       </div>
 
-      <div class="anim-card" data-title="Minecraft Render" data-desc="Simulasi pencahayaan karakter minecraft." data-video="https://www.w3schools.com/html/mov_bbb.mp4" data-thumb="">
+      <div class="anim-card" data-title="Minecraft Render">
         <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=3');"></div>
         <div class="anim-caption">
           <div class="anim-title">Minecraft Render</div>
@@ -306,7 +298,7 @@
         </div>
       </div>
 
-      <div class="anim-card" data-title="Intro Template" data-desc="Bikin opening logo neon kelap kelip." data-video="https://www.w3schools.com/html/movie.mp4" data-thumb="">
+      <div class="anim-card" data-title="Intro Template">
         <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=4');"></div>
         <div class="anim-caption">
           <div class="anim-title">Intro Template</div>
@@ -345,10 +337,11 @@
     }, 5000);
 
     // ==========================================
-    // LOGIKA SEARCH & REDIREKSI KE INDEX1.HTML
+    // LOGIKA SEARCH & REDIREKSI KLIK THUMBNAIL
     // ==========================================
     const searchInput = document.getElementById('searchAnim');
     const cards = document.querySelectorAll('.anim-card');
+    const thumbnails = document.querySelectorAll('.anim-thumbnail');
 
     // 1. Fungsi Pencarian Real-time
     searchInput.addEventListener('input', (e) => {
@@ -363,15 +356,13 @@
       });
     });
 
-    // 2. Fungsi Mengarahkan Klik Kartu langsung ke file index1.html
-    cards.forEach(card => {
-      card.addEventListener('click', () => {
-        // Langsung pindah halaman ke index1.html saat kartu diklik
+    // 2. Perbaikan: Hanya bagian THUMBNAIL (Gambar) yang mengarah ke index1.html saat diklik
+    thumbnails.forEach(thumb => {
+      thumb.addEventListener('click', () => {
         window.location.href = 'index1.html';
       });
     });
   </script>
 
 </body>
-  </html>
-  
+</html>
