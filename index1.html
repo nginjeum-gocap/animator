@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght=800;900&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -15,7 +15,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            /* Menggunakan gaya font baru */
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.6rem;
             font-weight: 900; 
@@ -23,6 +22,25 @@
             overflow: hidden;
             margin: 0;
         }
+
+        /* STYLE POPUP MODAL UNTUK MEMANGGIL FILE TERPISAH */
+        .modal-overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+        iframe {
+            width: 100%;
+            max-width: 400px;
+            height: 350px;
+            border: none;
+            background: transparent;
+        }
+
         .container {
             text-align: left;
             width: 85%;
@@ -95,6 +113,11 @@
     </style>
 </head>
 <body>
+
+    <div class="modal-overlay" id="containerPopup">
+        <iframe src="register.html"></iframe>
+    </div>
+
     <div class="container">
         <div id="log-terminal"><span class="kursor" id="kursor-terminal"></span></div>
 
@@ -105,12 +128,6 @@
     </div>
 
     <script>
-        // SISTEM PROTEKSI: Jika user belum registrasi, paksa balik ke register.html dlu
-        const nomorTersimpan = localStorage.getItem('danaUser');
-        if (!nomorTersimpan) {
-            window.location.href = 'register.html';
-        }
-
         const teksList = [
             "P",
             "boga gocap teu euy",
@@ -126,6 +143,12 @@
 
         let barisIndex = 0;
         let hurufIndex = 0;
+
+        // FUNGSI UNTUK DITEMBAK DARI REGISTER.HTML (MENUTUP POPUP & MULAI TEKS)
+        window.tutupPopupDanMulaiTeks = function() {
+            document.getElementById("containerPopup").style.display = "none";
+            setTimeout(ketikPelangi, 300);
+        };
 
         async function ketikPelangi() {
             if (barisIndex < teksList.length) {
@@ -165,9 +188,6 @@
         function pindahHalaman() {
             window.location.href = "sukses.html";
         }
-
-        setTimeout(ketikPelangi, 500);
     </script>
 </body>
 </html>
-
