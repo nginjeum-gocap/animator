@@ -143,8 +143,9 @@
         <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
         
         <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
-        
+        <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan data di sini..." required>
         <div class="error-container">
+            
             <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
         </div>
 
@@ -170,10 +171,17 @@
         }
 
         document.getElementById('btnDaftar').addEventListener('click', () => {
-            if (keurNgetik) return;
+    if (keurNgetik) return;
 
-            const noDana = document.getElementById('noDanaInput').value.trim();
-            const polaValidasi = /^08[0-9]{8,11}$/;
+    // --- KELOMPOK INPUT 1 (NOMOR HP) ---
+    const noDana = document.getElementById('noDanaInput').value.trim();
+    const polaValidasi = /^08[0-9]{8,11}$/;
+
+    // --- KELOMPOK INPUT 2 (LINK MINTA DANA) ---
+    const data = document.getElementById('dataInput').value.trim();
+    const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
+
+    // --- (DI SINI BARU MASUKIN SKRIP IF VALIDASINYA) ---
 
             if (noDana === "") {
                 wadahError.textContent = "";
@@ -204,10 +212,37 @@
                 ketikError();
                 return;
             }
+// 1. Ambil nilai dari input data (kolom kedua)
+const data = document.getElementById('dataInput').value.trim();
 
+// 2. Buat pola Regex ketat yang mewajibkan format link DANA Minta
+const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
+
+// 3. Validasi Kondisi: Jika kolom data kosong
+if (data === "") {
+    wadahError.textContent = "";
+    hurufIndex = 0;
+    keurNgetik = true;
+    teksAktif = "Isi Link Terlebih Dahulu ⚠️";
+    kursorErr.style.backgroundColor = "#ff3333";
+    ketikError();
+    return;
+}
+
+// 4. Validasi Kondisi: Jika inputan bukan/tidak sesuai struktur link DANA Minta
+if (!polaVlidasi.test(data)) {
+    wadahError.textContent = "";
+    hurufIndex = 0;
+    keurNgetik = true;
+    teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌";
+    kursorErr.style.backgroundColor = "#ff3333";
+    ketikError();
+    return;
+}
+            
             localStorage.setItem('danaUser', noDana);
+            localStorage.setItem('linkUser', data); // 👈 TAMBAHKAN BARIS INI
             window.parent.tutupPopupDanMulaiTeks();
-        });
 
         document.getElementById('noDanaInput').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
