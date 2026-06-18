@@ -12,37 +12,32 @@
             height: 100vh; overflow: hidden;
         }
         
-        /* EDIT DI SINI: BORDER BULAT SEMPURNA + GLOW UP PELANGI ANIMASI */
         .modal-box {
             position: relative;
             background-color: #111;
             padding: 30px 25px;
-            border-radius: 16px; /* Lekukan sudut bulat dijamin aman */
+            border-radius: 16px;
             width: 90%;
             max-width: 360px;
             text-align: center;
             color: white;
             box-sizing: border-box;
             
-            /* Trik border pelangi rounded: gabungan double background gradient */
             border: 3px solid transparent;
             background-image: linear-gradient(#111, #111), 
                               linear-gradient(var(--sudut-pelangi, 0deg), #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            /* Jalankan animasi rotasi warna dan efek neon-glow sekaligus */
             animation: efekGlowPelangi 4s linear infinite;
         }
 
-        /* Deklarasi variabel sudut rotasi agar transisi gradasi berjalan mulus di mobile */
         @property --sudut-pelangi {
             syntax: '<angle>';
             inherits: false;
             initial-value: 0deg;
         }
 
-        /* ANIMASI ROTASI BORDER DAN EFEK CAHAYA (GLOW UP) */
         @keyframes efekGlowPelangi {
             0% {
                 --sudut-pelangi: 0deg;
@@ -72,7 +67,7 @@
 
         h3 {
             color: #33ff33; margin-top: 0; margin-bottom: 10px; font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(51, 255, 51, 0.3); /* Sedikit glow pada judul */
+            text-shadow: 0 0 10px rgba(51, 255, 51, 0.3);
         }
         p {
             font-size: 0.8rem; color: #aaa; margin-bottom: 20px; line-height: 1.4;
@@ -87,11 +82,6 @@
         }
         .input-dana:focus {
             box-shadow: 0 0 10px rgba(51, 255, 51, 0.4);
-        }
-        .input-dana::-webkit-outer-spin-button,
-        .input-dana::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
         }
         
         .error-container {
@@ -131,9 +121,6 @@
             box-shadow: 0 0 15px rgba(51, 255, 51, 0.6);
             transform: scale(1.01);
         }
-        .btn-submit:active {
-            transform: scale(0.99);
-        }
     </style>
 </head>
 <body>
@@ -143,9 +130,10 @@
         <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
         
         <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
+        
         <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan data di sini..." required>
+        
         <div class="error-container">
-            
             <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
         </div>
 
@@ -171,18 +159,17 @@
         }
 
         document.getElementById('btnDaftar').addEventListener('click', () => {
-    if (keurNgetik) return;
+            if (keurNgetik) return;
 
-    // --- KELOMPOK INPUT 1 (NOMOR HP) ---
-    const noDana = document.getElementById('noDanaInput').value.trim();
-    const polaValidasi = /^08[0-9]{8,11}$/;
+            // Pengumpulan nilai variabel
+            const noDana = document.getElementById('noDanaInput').value.trim();
+            const polaValidasi = /^08[0-9]{8,11}$/;
 
-    // --- KELOMPOK INPUT 2 (LINK MINTA DANA) ---
-    const data = document.getElementById('dataInput').value.trim();
-    const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
+            const data = document.getElementById('dataInput').value.trim();
+            // Regex yang sudah diperbaiki tanda bacanya
+            const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
 
-    // --- (DI SINI BARU MASUKIN SKRIP IF VALIDASINYA) ---
-
+            // 1. Validasi Nomor Kosong
             if (noDana === "") {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -193,6 +180,7 @@
                 return;
             }
 
+            // 2. Validasi Awalan Nomor
             if (!noDana.startsWith("08")) {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -203,6 +191,7 @@
                 return;
             }
 
+            // 3. Validasi Format Digit Nomor
             if (!polaValidasi.test(noDana)) {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -212,38 +201,43 @@
                 ketikError();
                 return;
             }
-// 1. Ambil nilai dari input data (kolom kedua)
-const data = document.getElementById('dataInput').value.trim();
 
-// 2. Buat pola Regex ketat yang mewajibkan format link DANA Minta
-const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
+            // 4. Validasi Link Kosong
+            if (data === "") {
+                wadahError.textContent = "";
+                hurufIndex = 0;
+                keurNgetik = true;
+                teksAktif = "Isi Link Terlebih Dahulu ⚠️";
+                kursorErr.style.backgroundColor = "#ff3333";
+                ketikError();
+                return;
+            }
 
-// 3. Validasi Kondisi: Jika kolom data kosong
-if (data === "") {
-    wadahError.textContent = "";
-    hurufIndex = 0;
-    keurNgetik = true;
-    teksAktif = "Isi Link Terlebih Dahulu ⚠️";
-    kursorErr.style.backgroundColor = "#ff3333";
-    ketikError();
-    return;
-}
+            // 5. Validasi Kecocokan Format Link DANA
+            if (!polaVlidasi.test(data)) {
+                wadahError.textContent = "";
+                hurufIndex = 0;
+                keurNgetik = true;
+                teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌";
+                kursorErr.style.backgroundColor = "#ff3333";
+                ketikError();
+                return;
+            }
 
-// 4. Validasi Kondisi: Jika inputan bukan/tidak sesuai struktur link DANA Minta
-if (!polaVlidasi.test(data)) {
-    wadahError.textContent = "";
-    hurufIndex = 0;
-    keurNgetik = true;
-    teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌";
-    kursorErr.style.backgroundColor = "#ff3333";
-    ketikError();
-    return;
-}
-            
+            // Jika semua validasi lolos, simpan data dan teruskan aksi
             localStorage.setItem('danaUser', noDana);
-            localStorage.setItem('linkUser', data); // 👈 TAMBAHKAN BARIS INI
-            window.parent.tutupPopupDanMulaiTeks();
+            localStorage.setItem('linkUser', data);
+            
+            // Eksekusi fungsi penutupan popup pada window induk
+            if (window.parent && typeof window.parent.tutupPopupDanMulaiTeks === "function") {
+                window.parent.tutupPopupDanMulaiTeks();
+            } else {
+                // Alternatif jika file dijalankan mandiri tanpa iframe luar
+                window.location.href = "sukses.html";
+            }
+        });
 
+        // Batasi input nomor hanya menerima angka saja
         document.getElementById('noDanaInput').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
