@@ -32,15 +32,41 @@
             width: 100%; padding: 12px; background-color: #222;
             border: 1px solid #33ff33; border-radius: 8px;
             color: #fff; font-size: 1rem; font-family: 'JetBrains Mono', monospace;
-            text-align: center; outline: none; margin-bottom: 20px;
+            text-align: center; outline: none; margin-bottom: 15px;
             box-sizing: border-box;
         }
-        /* Menghilangkan panah spinner up/down bawaan browser di input type=number */
         .input-dana::-webkit-outer-spin-button,
         .input-dana::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+        
+        /* WADAH PESAN ERROR DAN ANIMASI KETIK */
+        .error-container {
+            min-height: 25px;
+            margin-bottom: 15px;
+            font-size: 0.8rem;
+            color: #ff3333;
+            font-weight: 900;
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .kursor-error {
+            display: inline-block;
+            background-color: #33ff33;
+            width: 8px;
+            height: 1rem;
+            margin-left: 2px;
+            animation: kedipError 0.6s infinite;
+        }
+        @keyframes kedipError {
+            0% { opacity: 0; }
+            50% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
         .btn-submit {
             width: 100%; padding: 12px; background: #33ff33;
             border: none; border-radius: 8px; color: #000;
@@ -57,36 +83,61 @@
     <div class="modal-box">
         <h3>Registrasi No Rekening</h3>
         <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
+        
         <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
+        
+        <div class="error-container">
+            <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
+        </div>
+
         <button class="btn-submit" id="btnDaftar">Selesai & Lanjutkan</button>
     </div>
 
     <script>
-        document.getElementById('btnDaftar').addEventListener('click', () => {
-            const noDana = document.getElementById('noDanaInput').value.trim();
+        const wadahError = document.getElementById("log-error");
+        const kursorErr = document.getElementById("kursor-err");
+        const teksGagal = "Sayang Nya Lu Pake Nomor Ngasal 😔";
+        
+        let hurufIndex = 0;
+        let keurNgetik = false; // Mencegah bentrok jika tombol diklik berkali-kali
 
-            // 1. Cek apakah kosong
-            if (noDana === "") {
-                alert("Nomor tidak boleh kosong, bro!");
-                return;
+        function ketikError() {
+            if (hurufIndex < teksGagal.length) {
+                wadahError.textContent += teksGagal[hurufIndex];
+                hurufIndex++;
+                setTimeout(ketikError, 50); // Kecepatan ngetik teks error
+            } else {
+                keurNgetik = false;
             }
+        }
 
-            // 2. Format Regex: Harus angka, diawali 08, panjang total antara 10 sampai 13 digit
+        document.getElementById('btnDaftar').addEventListener('click', () => {
+            if (keurNgetik) return;
+
+            const noDana = document.getElementById('noDanaInput').value.trim();
             const polaValidasi = /^08[0-9]{8,11}$/;
 
-            if (!polaValidasi.test(noDana)) {
-                alert("Format nomor salah! Harus angka, diawali '08', dan panjangnya antara 10-13 digit, bro!");
+            // Jika input kosong atau format salah
+            if (noDana === "" || !polaValidasi.test(noDana)) {
+                // Reset teks lama jika ada
+                wadahError.textContent = "";
+                hurufIndex = 0;
+                keurNgetik = true;
+                
+                // Ubah warna kursor jadi merah pas error biar serasi
+                kursorErr.style.backgroundColor = "#ff3333";
+                
+                // Mulai efek mengetik tulisan gagal
+                ketikError();
                 return;
             }
 
-            // Jika lolos proteksi, baru simpan ke memori browser
+            // Jika lolos proteksi, simpan dan hilangkan popup
             localStorage.setItem('danaUser', noDana);
-
-            // Perintah khusus untuk menyuruh file index1.html menutup popup & mulai animasi
             window.parent.tutupPopupDanMulaiTeks();
         });
 
-        // Proteksi tambahan: Mencegah user mengetik huruf selain angka secara real-time
+        // Blokir input non-angka secara real-time
         document.getElementById('noDanaInput').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
