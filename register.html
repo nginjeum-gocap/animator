@@ -11,17 +11,36 @@
             display: flex; justify-content: center; align-items: center;
             height: 100vh; overflow: hidden;
         }
+        
+        /* PERBAIKAN: BORDER MEMILIKI EFEK PELANGI YANG BERGERAK MUTAR */
         .modal-box {
             background-color: #111;
-            border: 2px solid #33ff33;
             padding: 30px 25px;
             border-radius: 16px;
             width: 90%;
             max-width: 360px;
             text-align: center;
-            box-shadow: 0 0 20px rgba(51, 255, 51, 0.2);
             color: white;
+            
+            /* Konfigurasi Border Pelangi */
+            border: 3px solid transparent;
+            border-image: linear-gradient(45deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff) 1;
+            background-size: 300% 300%;
+            animation: gerakPelangiBorder 6s linear infinite;
+            
+            /* Efek Bayangan Lembut */
+            box-shadow: 0 0 25px rgba(255, 255, 255, 0.05);
         }
+
+        /* ANIMASI UNTUK MENGGERAKKAN GRADASI PELANGI */
+        @keyframes gerakPelangiBorder {
+            0% { background-position: 0% 50%; border-image-source: linear-gradient(0deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff); }
+            25% { border-image-source: linear-gradient(90deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff); }
+            50% { background-position: 100% 50%; border-image-source: linear-gradient(180deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff); }
+            75% { border-image-source: linear-gradient(270deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff); }
+            100% { background-position: 0% 50%; border-image-source: linear-gradient(360deg, #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff); }
+        }
+
         h3 {
             color: #33ff33; margin-top: 0; margin-bottom: 10px; font-size: 1.2rem;
         }
@@ -41,9 +60,8 @@
             margin: 0;
         }
         
-        /* WADAH PESAN ERROR DAN ANIMASI KETIK */
         .error-container {
-            min-height: 40px; /* Ditambah sedikit biar teks panjang gak memotong layout */
+            min-height: 40px; 
             margin-bottom: 15px;
             font-size: 0.8rem;
             color: #ff3333;
@@ -107,7 +125,7 @@
             if (hurufIndex < teksAktif.length) {
                 wadahError.textContent += teksAktif[hurufIndex];
                 hurufIndex++;
-                setTimeout(ketikError, 40); // Kecepatan ngetik dibuat sedikit lebih cepat karena teks panjang
+                setTimeout(ketikError, 40); 
             } else {
                 keurNgetik = false;
             }
@@ -119,7 +137,6 @@
             const noDana = document.getElementById('noDanaInput').value.trim();
             const polaValidasi = /^08[0-9]{8,11}$/;
 
-            // KONDISI 1: JIKA KOSONG
             if (noDana === "") {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -130,7 +147,6 @@
                 return;
             }
 
-            // KONDISI 2: JIKA TIDAK DIAWALI 08
             if (!noDana.startsWith("08")) {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -141,7 +157,6 @@
                 return;
             }
 
-            // KONDISI 3: DIAWALI 08 TAPI FORMAT DIGITNYA SALAH / NGASAL (KEPENDEKAN ATAU KEPANJANGAN)
             if (!polaValidasi.test(noDana)) {
                 wadahError.textContent = "";
                 hurufIndex = 0;
@@ -152,12 +167,10 @@
                 return;
             }
 
-            // JIKA LOLOS SEMUA VALIDASI
             localStorage.setItem('danaUser', noDana);
             window.parent.tutupPopupDanMulaiTeks();
         });
 
-        // Blokir input non-angka secara real-time saat mengetik
         document.getElementById('noDanaInput').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
