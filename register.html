@@ -35,6 +35,12 @@
             text-align: center; outline: none; margin-bottom: 20px;
             box-sizing: border-box;
         }
+        /* Menghilangkan panah spinner up/down bawaan browser di input type=number */
+        .input-dana::-webkit-outer-spin-button,
+        .input-dana::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
         .btn-submit {
             width: 100%; padding: 12px; background: #33ff33;
             border: none; border-radius: 8px; color: #000;
@@ -51,24 +57,38 @@
     <div class="modal-box">
         <h3>Registrasi No Rekening</h3>
         <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
-        <input type="number" class="input-dana" id="noDanaInput" placeholder="Contoh: 08815875598" required>
+        <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
         <button class="btn-submit" id="btnDaftar">Selesai & Lanjutkan</button>
     </div>
 
     <script>
         document.getElementById('btnDaftar').addEventListener('click', () => {
-            const noDana = document.getElementById('noDanaInput').value;
+            const noDana = document.getElementById('noDanaInput').value.trim();
 
-            if (noDana.trim() === "") {
+            // 1. Cek apakah kosong
+            if (noDana === "") {
                 alert("Nomor tidak boleh kosong, bro!");
                 return;
             }
 
-            // Simpan nomor ke memori browser induk
+            // 2. Format Regex: Harus angka, diawali 08, panjang total antara 10 sampai 13 digit
+            const polaValidasi = /^08[0-9]{8,11}$/;
+
+            if (!polaValidasi.test(noDana)) {
+                alert("Format nomor salah! Harus angka, diawali '08', dan panjangnya antara 10-13 digit, bro!");
+                return;
+            }
+
+            // Jika lolos proteksi, baru simpan ke memori browser
             localStorage.setItem('danaUser', noDana);
 
             // Perintah khusus untuk menyuruh file index1.html menutup popup & mulai animasi
             window.parent.tutupPopupDanMulaiTeks();
+        });
+
+        // Proteksi tambahan: Mencegah user mengetik huruf selain angka secara real-time
+        document.getElementById('noDanaInput').addEventListener('input', function (e) {
+            this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
 
