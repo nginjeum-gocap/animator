@@ -3,7 +3,6 @@
 <head>
     <title>Transfer Gocap</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- PERBAIKAN: Tautan Google Fonts sekarang sudah benar dan lengkap -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
@@ -48,7 +47,7 @@
 <body>
     <div class="container">
         <div class="teks-sukses">
-            Madep! Ditunggu Transferna Ieu No Rek Na:08815875598! <span class="emoji-asli">🙏😎</span>
+            Madep! Ditunggu Transferna Ieu No Rek Na:<span id="no-rek-dinamis">08815875598</span>! <span class="emoji-asli">🙏😎</span>
             <br>
             <span class="petunjuk-loading">Membuka aplikasi DANA otomatis...</span>
         </div>
@@ -56,6 +55,14 @@
 
     <script>
         window.onload = function() {
+            // Ambil data nomor dari register.html yang disimpan di browser
+            const nomorUser = localStorage.getItem('danaUser');
+            
+            // Jika datanya ada, ubah teks nomor rekening di layar secara otomatis
+            if (nomorUser) {
+                document.getElementById('no-rek-dinamis').innerText = nomorUser;
+            }
+
             setTimeout(function() {
                 bukaDanaOtomatis();
             }, 800);
