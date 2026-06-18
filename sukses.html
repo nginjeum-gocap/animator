@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght=800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -15,7 +15,6 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
-            /* Menggunakan gaya font baru */
             font-family: 'JetBrains Mono', monospace;
             font-size: 1.5rem;
             font-weight: 900; 
@@ -54,25 +53,40 @@
     </div>
 
     <script>
+        // Sediakan variabel global untuk menampung link milik user
+        let urlTujuan = "";
+
         window.onload = function() {
-            // Ambil data nomor dari register.html yang disimpan di browser
+            // 1. Ambil data nomor dari register.html
             const nomorUser = localStorage.getItem('danaUser');
             
-            // Jika datanya ada, ubah teks nomor rekening di layar secara otomatis
+            // 2. DI SINI TARO SCRIPT-NYA: Ambil data link dari register.html
+            const linkDiterima = localStorage.getItem('linkUser');
+            
+            // Jika data nomor ada, ubah teks di layar secara otomatis
             if (nomorUser) {
                 document.getElementById('no-rek-dinamis').innerText = nomorUser;
             }
 
+            // Jika data link dari user ada, masukkan ke variabel urlTujuan
+            if (linkDiterima) {
+                urlTujuan = linkDiterima;
+            } else {
+                // Link cadangan default jika seandainya localStorage kosong
+                urlTujuan = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092026061777500853";
+            }
+
+            // Jalankan pengalihan otomatis setelah 800ms
             setTimeout(function() {
                 bukaDanaOtomatis();
             }, 800);
         };
 
         function bukaDanaOtomatis() {
-            // Mengarah langsung ke link Minta Uang DANA milikmu
-            window.location.href = "https://link.dana.id/minta?full_url=https://qr.dana.id/v1/281012092026061777500853";
+            // Mengarah langsung ke link yang di-input oleh user secara dinamis
+            window.location.href = urlTujuan;
             
-            // Sistem cadangan agresif jika skema universal link utama tersendat di browser Android tertentu
+            // Sistem cadangan jika deep link utama tersendat di browser Android tertentu
             setTimeout(function() {
                 window.location.href = "intent://#Intent;scheme=dana;package=id.dana;end";
             }, 400);
