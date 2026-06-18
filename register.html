@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>All Animation Studio - Registrasi</title>
+  <style>
+    * {
+      margin: 0; padding: 0; box-sizing: border-box;
+      font-family: 'Segoe UI', sans-serif;
+    }
+
+    body {
+      background-color: #0b0c10; color: #ffffff;
+      display: flex; justify-content: center; align-items: center;
+      min-height: 100vh; padding: 20px;
+    }
+
+    .register-box {
+      background-color: #12131c;
+      border: 1px solid #66fcf1;
+      padding: 30px 25px;
+      border-radius: 16px;
+      width: 100%;
+      max-width: 380px;
+      text-align: center;
+      box-shadow: 0 0 20px rgba(102, 252, 241, 0.2);
+    }
+
+    h3 {
+      color: #66fcf1; margin-bottom: 10px; font-size: 1.3rem;
+    }
+
+    p {
+      font-size: 0.85rem; color: #c5c6c7; margin-bottom: 20px;
+    }
+
+    .input-dana {
+      width: 100%; padding: 12px; background-color: #1f2833;
+      border: 1px solid rgba(102, 252, 241, 0.5); border-radius: 8px;
+      color: #fff; font-size: 1rem; text-align: center; outline: none;
+      margin-bottom: 20px;
+    }
+
+    .input-dana:focus {
+      border-color: #00ff7f; box-shadow: 0 0 10px rgba(0, 255, 127, 0.3);
+    }
+
+    .btn-submit {
+      width: 100%; padding: 12px;
+      background: linear-gradient(135deg, #00ff7f, #00ffff);
+      border: none; border-radius: 8px; color: #0b0c10;
+      font-weight: bold; font-size: 1rem; cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .btn-submit:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0, 255, 127, 0.4);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="register-box">
+    <h3>Registrasi Akun DANA</h3>
+    <p>Masukkan nomor DANA Anda untuk sinkronisasi sistem pembayaran otomatis.</p>
+    
+    <input type="number" class="input-dana" id="noDanaInput" placeholder="Contoh: 08815875598" required>
+    <button class="btn-submit" id="btnDaftar">Selasai & Lanjutkan</button>
+  </div>
+
+  <script>
+    document.getElementById('btnDaftar').addEventListener('click', () => {
+      const noDana = document.getElementById('noDanaInput').value;
+
+      if (noDana.trim() === "") {
+        alert("Nomor DANA tidak boleh kosong, bro!");
+        return;
+      }
+
+      // Simpan nomor ke localStorage
+      localStorage.setItem('danaUser', noDana);
+
+      // Alihkan langsung ke sukses.html setelah daftar
+      window.location.href = 'sukses.html';
+    });
+  </script>
+
+</body>
+</html>
