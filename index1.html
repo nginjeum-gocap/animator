@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="preconnect" href="https://googleapis.com">
     <link rel="preconnect" href="https://gstatic.com" crossorigin>
-    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght@800;900&display=swap" rel="stylesheet">
+    <link href="https://googleapis.com/css2?family=JetBrains+Mono:wght=800;900&display=swap" rel="stylesheet">
     <style>
         body {
             background-color: black;
@@ -23,7 +23,6 @@
             margin: 0;
         }
 
-        /* STYLE POPUP MODAL UNTUK MEMANGGIL FILE TERPISAH */
         .modal-overlay {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
@@ -114,7 +113,7 @@
 </head>
 <body>
 
-    <div class="modal-overlay" id="containerPopup">
+    <div class="modal-overlay" id="containerPopup" style="display: none;">
         <iframe src="register.html"></iframe>
     </div>
 
@@ -140,13 +139,29 @@
         const kursor = document.getElementById("kursor-terminal");
         const grupTombolAwal = document.getElementById("tombol-pilihan");
         const btnNo = document.getElementById("btn-no");
+        const targetPopup = document.getElementById("containerPopup");
 
         let barisIndex = 0;
         let hurufIndex = 0;
 
-        // FUNGSI UNTUK DITEMBAK DARI REGISTER.HTML (MENUTUP POPUP & MULAI TEKS)
+        // === LOGIKA PENGECEKAN GERBANG UTAMA (DILAKUKAN SAAT WINDOW LOAD) ===
+        window.onload = function() {
+            const dataNomorUser = localStorage.getItem('danaUser');
+            const dataLinkUser = localStorage.getItem('linkUser');
+
+            if (dataNomorUser && dataLinkUser) {
+                // JIKA DATA SUDAH ADA DI LOCAL STORAGE -> Langsung eksekusi teks animasi tanpa popup
+                targetPopup.style.display = "none";
+                setTimeout(ketikPelangi, 300);
+            } else {
+                // JIKA BELUM ADA DATA (Pengunjung baru) -> Baru tampilkan popup register.html
+                targetPopup.style.display = "flex";
+            }
+        };
+
+        // FUNGSI TRANSIAL DARI REGISTER.HTML
         window.tutupPopupDanMulaiTeks = function() {
-            document.getElementById("containerPopup").style.display = "none";
+            targetPopup.style.display = "none";
             setTimeout(ketikPelangi, 300);
         };
 
