@@ -138,51 +138,71 @@
             }
         }
 
-        document.getElementById('btnDaftar').addEventListener('click', () => {
-            if (keurNgetik) return;
+document.getElementById('btnDaftar').addEventListener('click', () => {
+    if (keurNgetik) return;
 
-            const noDana = document.getElementById('noDanaInput').value.trim();
-            const polaValidasi = /^08[0-9]{8,11}$/;
-            const data = document.getElementById('dataInput').value.trim();
-            
-            // PERUBAHAN DI SINI: Kode [0-9]{24}$ memastikan harus ada tepat 24 nomor di ekor URL
-            const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]{24}$/;
+    const noDana = document.getElementById('noDanaInput').value.trim();
+    const polaValidasi = /^08[0-9]{8,11}$/;
+    const data = document.getElementById('dataInput').value.trim();
 
-            if (noDana === "") {
-                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
-                teksAktif = "Isi Nomor Terlebih Dahulu ⚠️"; ketikError(); return;
-            }
-            if (!noDana.startsWith("08")) {
-                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
-                teksAktif = "Dimohon untuk mengawali dengan 08xxxxxxxxx ⚠️"; ketikError(); return;
-            }
-            if (!polaValidasi.test(noDana)) {
-                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
-                teksAktif = "Sayang Nya Lu Pake Nomor Ngasal 😔"; ketikError(); return;
-            }
-            if (data === "") {
-                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
-                teksAktif = "Isi Link Terlebih Dahulu ⚠️"; ketikError(); return;
-            }
-            if (!polaVlidasi.test(data)) {
-                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
-                teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌"; ketikError(); return;
-            }
+    // REGEX DASAR: Untuk ngecek struktur utama url sampai v1/
+    const polaStruktur = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/([0-9]*)$/;
 
-            // SIMPAN DATA KE LOCAL STORAGE
-            localStorage.setItem('danaUser', noDana);
-            localStorage.setItem('linkUser', data);
-            
-            // Generate url tautan kustom menuju halaman index utama (index.html)
-            const domainAsli = window.location.origin + window.location.pathname.replace('register.html', '');
-            const linkHasilGenerate = `${domainAsli}index1.html`;
-            
-            document.getElementById('teksLinkHasil').textContent = linkHasilGenerate;
+    // === VALIDASI NOMOR HP ===
+    if (noDana === "") {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Isi Nomor Terlebih Dahulu ⚠️"; ketikError(); return;
+    }
+    if (!noDana.startsWith("08")) {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Dimohon untuk mengawali dengan 08xxxxxxxxx ⚠️"; ketikError(); return;
+    }
+    if (!polaValidasi.test(noDana)) {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Sayang Nya Lu Pake Nomor Ngasal 😔"; ketikError(); return;
+    }
 
-            // Berpindah tampilan ke area salin link
-            document.getElementById('formInputUtama').style.display = 'none';
-            document.getElementById('areaSalin').style.display = 'block';
-        });
+    // === VALIDASI LINK DATA ===
+    // 1. Cek kalau kosong
+    if (data === "") {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Isi Link Terlebih Dahulu ⚠️"; ketikError(); return;
+    }
+
+    // 2. Cek apakah struktur url-nya valid secara format dasar DANA Minta
+    const hasilCocok = data.match(polaStruktur);
+    if (!hasilCocok) {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌"; ketikError(); return;
+    }
+
+    // Ambil deretan angka yang diketik di belakang v1/
+    const angkaEkor = hasilCocok[1]; 
+
+    // 3. Cek jika panjang angka di belakang v1/ KELEBIHAN
+    if (angkaEkor.length > 24) {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Banyak banget! Padahal cuma 24 angka di belakang v1/ ⚠️"; ketikError(); return;
+    }
+
+    // 4. Cek jika panjang angka di belakang v1/ KEKURANGAN
+    if (angkaEkor.length < 24) {
+        wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+        teksAktif = "Kurang! Harus ada tepat 24 angka di belakang v1/ ⚠️"; ketikError(); return;
+    }
+
+    // === JIKA SEMUA LOLOS VERIFIKASI ===
+    localStorage.setItem('danaUser', noDana);
+    localStorage.setItem('linkUser', data);
+    
+    const domainAsli = window.location.origin + window.location.pathname.replace('register.html', '');
+    const linkHasilGenerate = `${domainAsli}index.html`;
+    
+    document.getElementById('teksLinkHasil').textContent = linkHasilGenerate;
+
+    document.getElementById('formInputUtama').style.display = 'none';
+    document.getElementById('areaSalin').style.display = 'block';
+});
 
         document.getElementById('btnSalinTeks').addEventListener('click', () => {
             const teksLink = document.getElementById('teksLinkHasil').textContent;
