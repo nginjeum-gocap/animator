@@ -274,32 +274,32 @@
 
     <div class="animation-grid" id="animGrid">
       
-      <div class="anim-card" data-title="DANA Otomatis">
-        <div class="anim-thumbnail" style="background-image: url('dana.jpg');"></div>
+      <div class="anim-card">
+        <div class="anim-thumbnail" id="thumb-dana" style="background-image: url('dana.jpg');"></div>
         <div class="anim-caption">
           <div class="anim-title">Nginjeum Duit</div>
           <div class="anim-desc">DANA Otomatis</div>
         </div>
       </div>
 
-      <div class="anim-card" data-title="Stickman Epic">
-        <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=2');"></div>
+      <div class="anim-card">
+        <div class="anim-thumbnail" id="thumb-stickman" style="background-image: url('https://picsum.photos/300/300?random=2');"></div>
         <div class="anim-caption">
           <div class="anim-title">Stickman Epic</div>
           <div class="anim-desc">Pivot Animator</div>
         </div>
       </div>
 
-      <div class="anim-card" data-title="Minecraft Render">
-        <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=3');"></div>
+      <div class="anim-card">
+        <div class="anim-thumbnail" id="thumb-mc" style="background-image: url('https://picsum.photos/300/300?random=3');"></div>
         <div class="anim-caption">
           <div class="anim-title">Minecraft Render</div>
           <div class="anim-desc">Cinema 4D</div>
         </div>
       </div>
 
-      <div class="anim-card" data-title="Intro Template">
-        <div class="anim-thumbnail" style="background-image: url('https://picsum.photos/300/300?random=4');"></div>
+      <div class="anim-card">
+        <div class="anim-thumbnail" id="thumb-intro" style="background-image: url('https://picsum.photos/300/300?random=4');"></div>
         <div class="anim-caption">
           <div class="anim-title">Intro Template</div>
           <div class="anim-desc">After Effects</div>
@@ -342,44 +342,56 @@
     const searchInput = document.getElementById('searchAnim');
     const cards = document.querySelectorAll('.anim-card');
 
-    // 1. Fungsi Pencarian Real-time (Tetap sama)
-    searchInput.addEventListener('input', (e) => {
-      const filterTeks = e.target.value.toLowerCase();
-      cards.forEach(card => {
-        const title = card.getAttribute('data-title').toLowerCase();
-        if (title.includes(filterTeks)) {
-          card.style.display = 'flex';
-        } else {
-          card.style.display = 'none';
-        }
+    // 1. Fungsi Pencarian Real-time Berdasarkan Teks Elemen Asli
+    if (searchInput) {
+      searchInput.addEventListener('input', (e) => {
+        const filterTeks = e.target.value.toLowerCase();
+        cards.forEach(card => {
+          const judul = card.querySelector('.anim-title').textContent.toLowerCase();
+          const deskripsi = card.querySelector('.anim-desc').textContent.toLowerCase();
+          
+          if (judul.includes(filterTeks) || deskripsi.includes(filterTeks)) {
+            card.style.setProperty('display', 'flex', 'important');
+          } else {
+            card.style.setProperty('display', 'none', 'important');
+          }
+        });
       });
-    });
+    }
 
     // 2. SCRIPT PENGARAHAN LINK DIPISAH-PISAH
     
     // Klik Tab 1 (DANA Otomatis)
-    document.getElementById('thumb-dana').addEventListener('click', () => {
-      window.location.href = 'register.html'; 
-    });
+    const thumbDana = document.getElementById('thumb-dana');
+    if (thumbDana) {
+      thumbDana.addEventListener('click', () => {
+        window.location.href = 'register.html'; 
+      });
+    }
 
     // Klik Tab 2 (Stickman Epic)
-    document.getElementById('thumb-stickman').addEventListener('click', () => {
-      // Ganti 'file_stickman.html' dengan nama file asli lu nanti
-      window.location.href = 'file_stickman.html'; 
-    });
+    const thumbStickman = document.getElementById('thumb-stickman');
+    if (thumbStickman) {
+      thumbStickman.addEventListener('click', () => {
+        window.location.href = 'file_stickman.html'; 
+      });
+    }
 
     // Klik Tab 3 (Minecraft Render)
-    document.getElementById('thumb-mc').addEventListener('click', () => {
-      // Ganti 'file_minecraft.html' dengan nama file asli lu nanti
-      window.location.href = 'file_minecraft.html'; 
-    });
+    const thumbMc = document.getElementById('thumb-mc');
+    if (thumbMc) {
+      thumbMc.addEventListener('click', () => {
+        window.location.href = 'file_minecraft.html'; 
+      });
+    }
 
     // Klik Tab 4 (Intro Template)
-    document.getElementById('thumb-intro').addEventListener('click', () => {
-      // Ganti 'file_intro.html' dengan nama file asli lu nanti
-      window.location.href = 'file_intro.html'; 
-    });
-   });
+    const thumbIntro = document.getElementById('thumb-intro');
+    if (thumbIntro) {
+      thumbIntro.addEventListener('click', () => {
+        window.location.href = 'file_intro.html'; 
+      });
+    }
   </script>
 
 </body>
