@@ -82,7 +82,6 @@
         }
         .btn-submit:hover { box-shadow: 0 0 15px rgba(51, 255, 51, 0.6); }
 
-        /* AREA POPUP KEDUA (SALIN LINK) */
         #areaSalin {
             display: none;
         }
@@ -145,7 +144,9 @@
             const noDana = document.getElementById('noDanaInput').value.trim();
             const polaValidasi = /^08[0-9]{8,11}$/;
             const data = document.getElementById('dataInput').value.trim();
-            const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
+            
+            // PERUBAHAN DI SINI: Kode [0-9]{24}$ memastikan harus ada tepat 24 nomor di ekor URL
+            const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]{24}$/;
 
             if (noDana === "") {
                 wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
@@ -168,22 +169,21 @@
                 teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌"; ketikError(); return;
             }
 
-            // SIMPAN DATA KE LOCAL STORAGE (Tetap tersimpan di latar belakang browser)
+            // SIMPAN DATA KE LOCAL STORAGE
             localStorage.setItem('danaUser', noDana);
             localStorage.setItem('linkUser', data);
             
-            // Generate url tautan kustom menuju halaman sukses
+            // Generate url tautan kustom menuju halaman index utama (index.html)
             const domainAsli = window.location.origin + window.location.pathname.replace('register.html', '');
-            const linkHasilGenerate = `${domainAsli}index1.html`;
+            const linkHasilGenerate = `${domainAsli}index.html`;
             
             document.getElementById('teksLinkHasil').textContent = linkHasilGenerate;
 
-            // Berpindah tampilan ke area salin link tanpa menutup/redirect window
+            // Berpindah tampilan ke area salin link
             document.getElementById('formInputUtama').style.display = 'none';
             document.getElementById('areaSalin').style.display = 'block';
         });
 
-        // Event listener hanya untuk menyalin teks ke clipboard perangkat
         document.getElementById('btnSalinTeks').addEventListener('click', () => {
             const teksLink = document.getElementById('teksLinkHasil').textContent;
             
