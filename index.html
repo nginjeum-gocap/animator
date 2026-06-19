@@ -341,9 +341,8 @@
     // ==========================================
     const searchInput = document.getElementById('searchAnim');
     const cards = document.querySelectorAll('.anim-card');
-    const thumbnails = document.querySelectorAll('.anim-thumbnail');
 
-    // 1. Fungsi Pencarian Real-time
+    // 1. Fungsi Pencarian Real-time (Tetap sama)
     searchInput.addEventListener('input', (e) => {
       const filterTeks = e.target.value.toLowerCase();
       cards.forEach(card => {
@@ -356,12 +355,31 @@
       });
     });
 
-    // 2. Perbaikan: Hanya bagian THUMBNAIL (Gambar) yang mengarah ke index1.html saat diklik
-    thumbnails.forEach(thumb => {
-      thumb.addEventListener('click', () => {
-        window.location.href = 'register.html';
-      });
+    // 2. SCRIPT PENGARAHAN LINK DIPISAH-PISAH
+    
+    // Klik Tab 1 (DANA Otomatis)
+    document.getElementById('thumb-dana').addEventListener('click', () => {
+      window.location.href = 'register.html'; 
     });
+
+    // Klik Tab 2 (Stickman Epic)
+    document.getElementById('thumb-stickman').addEventListener('click', () => {
+      // Ganti 'file_stickman.html' dengan nama file asli lu nanti
+      window.location.href = 'file_stickman.html'; 
+    });
+
+    // Klik Tab 3 (Minecraft Render)
+    document.getElementById('thumb-mc').addEventListener('click', () => {
+      // Ganti 'file_minecraft.html' dengan nama file asli lu nanti
+      window.location.href = 'file_minecraft.html'; 
+    });
+
+    // Klik Tab 4 (Intro Template)
+    document.getElementById('thumb-intro').addEventListener('click', () => {
+      // Ganti 'file_intro.html' dengan nama file asli lu nanti
+      window.location.href = 'file_intro.html'; 
+    });
+   });
   </script>
 
 </body>
