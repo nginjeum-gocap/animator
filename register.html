@@ -12,67 +12,41 @@
             height: 100vh; overflow: hidden;
         }
         
-        /* EDIT DI SINI: BORDER BULAT SEMPURNA + GLOW UP PELANGI ANIMASI */
         .modal-box {
             position: relative;
             background-color: #111;
             padding: 30px 25px;
-            border-radius: 16px; /* Lekukan sudut bulat dijamin aman */
+            border-radius: 16px;
             width: 90%;
             max-width: 360px;
             text-align: center;
             color: white;
             box-sizing: border-box;
             
-            /* Trik border pelangi rounded: gabungan double background gradient */
             border: 3px solid transparent;
             background-image: linear-gradient(#111, #111), 
                               linear-gradient(var(--sudut-pelangi, 0deg), #ff3333, #ffff33, #33ff33, #33ffff, #3333ff, #ff33ff);
             background-origin: border-box;
             background-clip: padding-box, border-box;
             
-            /* Jalankan animasi rotasi warna dan efek neon-glow sekaligus */
             animation: efekGlowPelangi 4s linear infinite;
         }
 
-        /* Deklarasi variabel sudut rotasi agar transaksi gradasi berjalan mulus di mobile */
         @property --sudut-pelangi {
             syntax: '<angle>';
             inherits: false;
             initial-value: 0deg;
         }
 
-        /* ANIMASI ROTASI BORDER DAN EFEK CAHAYA (GLOW UP) */
         @keyframes efekGlowPelangi {
-            0% {
-                --sudut-pelangi: 0deg;
-                box-shadow: 0 0 15px rgba(255, 51, 51, 0.5), 0 0 30px rgba(255, 51, 51, 0.2);
-            }
-            16% {
-                box-shadow: 0 0 15px rgba(255, 255, 51, 0.5), 0 0 30px rgba(255, 255, 51, 0.2);
-            }
-            33% {
-                box-shadow: 0 0 15px rgba(51, 255, 51, 0.5), 0 0 30px rgba(51, 255, 51, 0.2);
-            }
-            50% {
-                --sudut-pelangi: 180deg;
-                box-shadow: 0 0 15px rgba(51, 255, 255, 0.5), 0 0 30px rgba(51, 255, 255, 0.2);
-            }
-            66% {
-                box-shadow: 0 0 15px rgba(51, 51, 255, 0.5), 0 0 30px rgba(51, 51, 255, 0.2);
-            }
-            83% {
-                box-shadow: 0 0 15px rgba(255, 51, 255, 0.5), 0 0 30px rgba(255, 51, 255, 0.2);
-            }
-            100% {
-                --sudut-pelangi: 360deg;
-                box-shadow: 0 0 15px rgba(255, 51, 51, 0.5), 0 0 30px rgba(255, 51, 51, 0.2);
-            }
+            0% { --sudut-pelangi: 0deg; box-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
+            50% { --sudut-pelangi: 180deg; box-shadow: 0 0 15px rgba(51, 255, 255, 0.5); }
+            100% { --sudut-pelangi: 360deg; box-shadow: 0 0 15px rgba(255, 51, 51, 0.5); }
         }
 
         h3 {
             color: #33ff33; margin-top: 0; margin-bottom: 10px; font-size: 1.2rem;
-            text-shadow: 0 0 10px rgba(51, 255, 51, 0.3); /* Sedikit glow pada judul */
+            text-shadow: 0 0 10px rgba(51, 255, 51, 0.3);
         }
         p {
             font-size: 0.8rem; color: #aaa; margin-bottom: 20px; line-height: 1.4;
@@ -83,45 +57,22 @@
             color: #fff; font-size: 1rem; font-family: 'JetBrains Mono', monospace;
             text-align: center; outline: none; margin-bottom: 15px;
             box-sizing: border-box;
-            transition: all 0.3s;
         }
-        .input-dana:focus {
-            box-shadow: 0 0 10px rgba(51, 255, 255, 0.4);
-        }
-
-        /* INI GAYA SPINNER YANG KEMARIN KEBANGOR RE-WRITE - SEKARANG AMAN */
         .input-dana::-webkit-outer-spin-button,
         .input-dana::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
+            -webkit-appearance: none; margin: 0;
         }
         
         .error-container {
-            min-height: 40px; 
-            margin-bottom: 15px;
-            font-size: 0.8rem;
-            color: #ff3333;
-            font-weight: 900;
-            text-align: center;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            line-height: 1.3;
+            min-height: 40px; margin-bottom: 15px; font-size: 0.8rem;
+            color: #ff3333; font-weight: 900; display: flex;
+            justify-content: center; align-items: center;
         }
         .kursor-error {
-            display: inline-block;
-            background-color: #33ff33;
-            width: 8px;
-            height: 1rem;
-            margin-left: 2px;
-            animation: kedipError 0.6s infinite;
-            vertical-align: middle;
+            display: inline-block; background-color: #33ff33; width: 8px; height: 1rem;
+            animation: kedipError 0.6s infinite; vertical-align: middle;
         }
-        @keyframes kedipError {
-            0% { opacity: 0; }
-            50% { opacity: 1; }
-            100% { opacity: 0; }
-        }
+        @keyframes kedipError { 0%, 100% { opacity: 0; } 50% { opacity: 1; } }
 
         .btn-submit {
             width: 100%; padding: 12px; background: #33ff33;
@@ -129,27 +80,45 @@
             font-weight: bold; font-size: 1rem; font-family: 'JetBrains Mono', monospace;
             cursor: pointer; transition: all 0.3s;
         }
-        .btn-submit:hover {
-            box-shadow: 0 0 15px rgba(51, 255, 51, 0.6);
-            transform: scale(1.01);
+        .btn-submit:hover { box-shadow: 0 0 15px rgba(51, 255, 51, 0.6); }
+
+        /* AREA POPUP KEDUA (SALIN LINK) */
+        #areaSalin {
+            display: none;
+        }
+        .box-link {
+            background-color: #222; border: 1px dashed #33ff33;
+            padding: 12px; border-radius: 8px; font-size: 0.75rem;
+            word-break: break-all; color: #00ffcc; margin-bottom: 20px;
+            user-select: all; text-align: left; line-height: 1.4;
         }
     </style>
 </head>
 <body>
 
     <div class="modal-box">
-        <h3>Registrasi No Rekening</h3>
-        <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
-        
-        <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
-        
-        <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan data di sini..." required>
-        
-        <div class="error-container">
-            <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
+        <div id="formInputUtama">
+            <h3>Registrasi No Rekening</h3>
+            <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
+            
+            <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
+            <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan data di sini..." required>
+            
+            <div class="error-container">
+                <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
+            </div>
+
+            <button class="btn-submit" id="btnDaftar">Selesai & Lanjutkan</button>
         </div>
 
-        <button class="btn-submit" id="btnDaftar">Selesai & Lanjutkan</button>
+        <div id="areaSalin">
+            <h3>Salin Link Manual</h3>
+            <p>Data berhasil diverifikasi. Silakan salin tautan di bawah ini secara manual untuk melanjutkan akses.</p>
+            
+            <div class="box-link" id="teksLinkHasil">Menyiapkan tautan...</div>
+            
+            <button class="btn-submit" id="btnSalinTeks">Salin Tautan 📋</button>
+        </div>
     </div>
 
     <script>
@@ -175,81 +144,59 @@
 
             const noDana = document.getElementById('noDanaInput').value.trim();
             const polaValidasi = /^08[0-9]{8,11}$/;
-
             const data = document.getElementById('dataInput').value.trim();
             const polaVlidasi = /^https:\/\/link\.dana\.id\/minta\?full_url=https:\/\/qr\.dana\.id\/v1\/[0-9]+$/;
 
-            // 1. Cek nomor kosong
             if (noDana === "") {
-                wadahError.textContent = "";
-                hurufIndex = 0;
-                keurNgetik = true;
-                teksAktif = "Isi Nomor Terlebih Dahulu ⚠️";
-                kursorErr.style.backgroundColor = "#ff3333";
-                ketikError();
-                return;
+                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+                teksAktif = "Isi Nomor Terlebih Dahulu ⚠️"; ketikError(); return;
             }
-
-            // 2. Cek awalan 08
             if (!noDana.startsWith("08")) {
-                wadahError.textContent = "";
-                hurufIndex = 0;
-                keurNgetik = true;
-                teksAktif = "Dimohon untuk mengawali dengan 08xxxxxxxxx ⚠️";
-                kursorErr.style.backgroundColor = "#ff3333";
-                ketikError();
-                return;
+                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+                teksAktif = "Dimohon untuk mengawali dengan 08xxxxxxxxx ⚠️"; ketikError(); return;
             }
-
-            // 3. Cek nomor ngasal
             if (!polaValidasi.test(noDana)) {
-                wadahError.textContent = "";
-                hurufIndex = 0;
-                keurNgetik = true;
-                teksAktif = "Sayang Nya Lu Pake Nomor Ngasal 😔";
-                kursorErr.style.backgroundColor = "#ff3333";
-                ketikError();
-                return;
+                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+                teksAktif = "Sayang Nya Lu Pake Nomor Ngasal 😔"; ketikError(); return;
             }
-
-            // 4. Cek data link kosong
             if (data === "") {
-                wadahError.textContent = "";
-                hurufIndex = 0;
-                keurNgetik = true;
-                teksAktif = "Isi Link Terlebih Dahulu ⚠️";
-                kursorErr.style.backgroundColor = "#ff3333";
-                ketikError();
-                return;
+                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+                teksAktif = "Isi Link Terlebih Dahulu ⚠️"; ketikError(); return;
             }
-
-            // 5. Cek format link DANA valid atau tidak
             if (!polaVlidasi.test(data)) {
-                wadahError.textContent = "";
-                hurufIndex = 0;
-                keurNgetik = true;
-                teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌";
-                kursorErr.style.backgroundColor = "#ff3333";
-                ketikError();
-                return;
+                wadahError.textContent = ""; hurufIndex = 0; keurNgetik = true;
+                teksAktif = "Format Link DANA Salah atau Tidak Valid! ❌"; ketikError(); return;
             }
 
-            // Berhasil lolos semua validasi
+            // SIMPAN DATA KE LOCAL STORAGE (Tetap tersimpan di latar belakang browser)
             localStorage.setItem('danaUser', noDana);
             localStorage.setItem('linkUser', data);
             
-            if (window.parent && typeof window.parent.tutupPopupDanMulaiTeks === "function") {
-                window.parent.tutupPopupDanMulaiTeks();
-            } else {
-                window.location.href = "sukses.html";
-            }
+            // Generate url tautan kustom menuju halaman sukses
+            const domainAsli = window.location.origin + window.location.pathname.replace('register.html', '');
+            const linkHasilGenerate = `${domainAsli}sukses.html`;
+            
+            document.getElementById('teksLinkHasil').textContent = linkHasilGenerate;
+
+            // Berpindah tampilan ke area salin link tanpa menutup/redirect window
+            document.getElementById('formInputUtama').style.display = 'none';
+            document.getElementById('areaSalin').style.display = 'block';
         });
 
-        // Filter inputan nomor hanya boleh angka
+        // Event listener hanya untuk menyalin teks ke clipboard perangkat
+        document.getElementById('btnSalinTeks').addEventListener('click', () => {
+            const teksLink = document.getElementById('teksLinkHasil').textContent;
+            
+            navigator.clipboard.writeText(teksLink).then(() => {
+                alert("Tautan sukses disalin! Silakan tempel secara manual di browser Anda. 👍");
+            }).catch(err => {
+                alert("Gagal menyalin otomatis. Silakan blok dan salin teks di atas secara manual.");
+            });
+        });
+
         document.getElementById('noDanaInput').addEventListener('input', function (e) {
             this.value = this.value.replace(/[^0-9]/g, '');
         });
     </script>
-
 </body>
 </html>
